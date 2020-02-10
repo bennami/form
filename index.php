@@ -3,76 +3,117 @@
 declare(strict_types=1);
 
 
-//validate email, working, if u type .php it still gives u valid email
-function validateEmail(){
-    if(isset($_POST['email']) == true && empty($_POST['email']) == false) {
-    $email = $_POST['email'];
-    if(filter_var($email, FILTER_VALIDATE_EMAIL) == true){
-        echo 'valid email!';
-    }else{
-        echo 'email not valid!';
-      }
+
+if(isset($_POST)){
+//validate email, working, if u type .php it still gives u valid email.
+function validateEmail()
+{
+    $alertStyle = array();
+    if (empty($_POST['email']) == false) {
+        if (isset($_POST['email']) == true) {
+            $email = $_POST['email'];
+            if (filter_var($email, FILTER_VALIDATE_EMAIL) == true) {
+                $style = 'alert-success';
+                $isValid = 'valid email!';
+                array_push($alertStyle, $style, $isValid);
+            } else {
+                $style = 'alert-danger';
+                $isValid = 'email not valid!';
+                array_push($alertStyle, $style, $isValid);
+            }
+            return $alertStyle;
+        }
+    } else {
+        $style = 'alert-danger';
+        $isValid = 'email required!';
+        array_push($alertStyle, $style, $isValid);
+        return $alertStyle;
     }
 }
+function requireStreet(){
+    $alertStyle= array();
 
-
-function requireStreet()
-{
     if (isset($_POST['street'])) {
         $street = trim($_POST['street']);
         if (empty($street)) {
-            echo 'street required<br>';
+            $style = 'alert-danger';
+            $isValid = 'no valid street!';
+            array_push($alertStyle, $style, $isValid);
+
         } else {
-            echo 'check!<br>';
+            $style = 'alert-success';
+            $isValid = 'street valid!';
+            array_push($alertStyle, $style, $isValid);
+
         }
-    }
+    }return $alertStyle;
 }
 function requireStreetnumber(){
+    $alertStyle= array();
     if (isset($_POST['streetnumber'])) {
         $streetnumber = trim($_POST['streetnumber']);
         if (is_numeric($streetnumber) == true) {
-            echo 'its a number!<br>';
+            $style = 'alert-success';
+            $isNumber = 'its a number!';
+            array_push($alertStyle, $style, $isNumber);
         } else {
-            echo 'must be number<br>';
+            $style = 'alert-danger';
+            $isNumber = 'must be number';
+            array_push($alertStyle, $style, $isNumber);
         }
         if (empty($streetnumber)) {
-            echo 'streetnumber required<br>';
+            $style = 'alert-danger';
+            $isValid = 'street number required';
+            array_push($alertStyle, $style, $isValid);
         } else {
-            echo 'check<br>';
+            $style = 'alert-success';
+            $isValid =  'check';
+            array_push($alertStyle, $style, $isValid);
         }
-    }
+    }return $alertStyle;
 }
-
+var_dump(whatIsHappening());
    function requireCity(){
-
+       $alertStyle= array();
     if(isset($_POST['city'])) {
         $city = trim($_POST['city']);
         if (empty($city)) {
-            echo 'city required<br>';
+            $style = 'alert-danger';
+            $isValid = 'city required';
+            array_push($alertStyle, $style, $isValid);
         } else {
-            echo 'check<br>';
+            $style = 'alert-success';
+            $isValid =  'check!';
+            array_push($alertStyle, $style, $isValid);
         }
-    }
+    }return $alertStyle;
    }
 
    function requireZipCode(){
+       $alertStyle= array();
         if(isset($_POST['zipcode'])) {
             $zipcode = trim($_POST['zipcode']);
            if(is_numeric($zipcode)  ==true){
-               echo 'its a number!<br>';
+               $style = 'alert-success';
+               $isNumber = 'its a number!';
+               array_push($alertStyle, $style, $isNumber);
            }else{
-               echo 'must be number<br>';
+               $style = 'alert-danger';
+               $isNumber = 'must be number';
+               array_push($alertStyle, $style, $isNumber);
            }
             if (empty($zipcode)) {
-                echo 'zipcode required<br>';
+                $style = 'alert-danger';
+                $isValid =  'zip code required';
+                array_push($alertStyle, $style, $isValid);
             } else {
-                echo 'check<br>';
+                $style = 'alert-success';
+                $isValid =  'check!';
+                array_push($alertStyle, $style, $isValid);
             }
-        }
+        }return $alertStyle;
    }
-
-//var_dump(requireAdress());
-
+}
 //we are going to use session variables so we need to enable sessions
 session_start();
 
