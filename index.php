@@ -4,10 +4,24 @@ declare(strict_types=1);
 
 
 //Get post
-if(isset($POST['email'])){
+if(isset($_POST['email'])){
 
+$email = $_POST['email'];
 
+    function isEmailValid(string $email) {
+        $acceptables = array('.com','.org','.be', '.net', '.int', '.edu', '.gov', '.mil', '@');
+
+        foreach ($acceptables as $acceptable) {
+            if (strpos($email, $acceptable) !== false) {
+                echo 'valid email!<br>';
+                return;
+            }
+        }
+        echo 'email not valid!<br />';
+    }
+    isEmailValid($email);
 }
+
 //we are going to use session variables so we need to enable sessions
 session_start();
 
@@ -21,7 +35,7 @@ function whatIsHappening() {
     echo '<h2>$_SESSION</h2>';
     var_dump($_SESSION);
 }
-whatIsHappening();
+//whatIsHappening();
 //your products with their price.
 $products = [
     ['name' => 'Club Ham', 'price' => 3.20],
