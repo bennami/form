@@ -3,35 +3,65 @@
 declare(strict_types=1);
 
 
-//Get post
-/*if(isset($_POST['email']) == true && empty($_POST['email']) == false){
+//validate email, working, if u type .php it still gives u valid email
+function validateEmail(){
+    if(isset($_POST['email']) == true && empty($_POST['email']) == false) {
+    $email = $_POST['email'];
+    if(filter_var($email, FILTER_VALIDATE_EMAIL) == true){
+        echo 'valid email!<br>';
+    }else{
+        echo 'email not valid!<br />';
+      }
+    }
+}
 
-$email = $_POST['email'];
 
-    function isEmailValid(string $email) {
-        $acceptables = array('.com','.org','.be', '.net', '.int', '.edu', '.gov', '.mil','au', '@');
+function requireAdress(){
+   if(isset($_POST['street'])){
+       $street = trim($_POST['street']);
+       if(empty($street)) {
+           echo'street required';
+       }else{
+           echo 'check!';
+       }
+   }
 
-        foreach ($acceptables as $acceptable) {
-            if (strpos($email, $acceptable) !== false) {
-                echo 'valid email!<br>';
-                return;
+    if(isset($_POST['streetnumber'])){
+        $streetnumber = trim ($_POST['streetnumber']);
+        if(is_numeric($streetnumber)  ==true){
+            echo 'its a number!';
+        }else {
+            echo 'must be number';
+        }
+        if(empty($streetnumber)) {
+            echo'streetnumber required';
+        }else{
+        echo'check';}
+    }
+    if(isset($_POST['city'])) {
+        $city = trim($_POST['city']);
+        if (empty($city)) {
+            echo 'city required';
+        } else {
+            echo 'check';
+        }
+    }
+        if(isset($_POST['zipcode'])) {
+            $zipcode = trim($_POST['zipcode']);
+           if(is_numeric($zipcode)  ==true){
+               echo 'its a number!';
+           }else{
+               echo 'must be number';
+           }
+            if (empty($zipcode)) {
+                echo 'zipcode required';
+            } else {
+                echo 'check';
             }
         }
-        echo 'email not valid!<br />';
-    }
-    isEmailValid($email);
-}*/
-
-if(isset($_POST['email']) == true && empty($_POST['email']) == false) {
-    $email = $_POST['email'];
-if(filter_var($email, FILTER_VALIDATE_EMAIL) == true){
-    echo 'valid email!<br>';
-}else{
-    echo 'email not valid!<br />';
 }
+var_dump(requireAdress());
 
-
-}
 //we are going to use session variables so we need to enable sessions
 session_start();
 
