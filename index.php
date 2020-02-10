@@ -8,59 +8,70 @@ function validateEmail(){
     if(isset($_POST['email']) == true && empty($_POST['email']) == false) {
     $email = $_POST['email'];
     if(filter_var($email, FILTER_VALIDATE_EMAIL) == true){
-        echo 'valid email!<br>';
+        echo 'valid email!';
     }else{
-        echo 'email not valid!<br />';
+        echo 'email not valid!';
       }
     }
 }
 
 
-function requireAdress(){
-   if(isset($_POST['street'])){
-       $street = trim($_POST['street']);
-       if(empty($street)) {
-           echo'street required';
-       }else{
-           echo 'check!';
-       }
-   }
-
-    if(isset($_POST['streetnumber'])){
-        $streetnumber = trim ($_POST['streetnumber']);
-        if(is_numeric($streetnumber)  ==true){
-            echo 'its a number!';
-        }else {
-            echo 'must be number';
+function requireStreet()
+{
+    if (isset($_POST['street'])) {
+        $street = trim($_POST['street']);
+        if (empty($street)) {
+            echo 'street required<br>';
+        } else {
+            echo 'check!<br>';
         }
-        if(empty($streetnumber)) {
-            echo'streetnumber required';
-        }else{
-        echo'check';}
     }
+}
+function requireStreetnumber(){
+    if (isset($_POST['streetnumber'])) {
+        $streetnumber = trim($_POST['streetnumber']);
+        if (is_numeric($streetnumber) == true) {
+            echo 'its a number!<br>';
+        } else {
+            echo 'must be number<br>';
+        }
+        if (empty($streetnumber)) {
+            echo 'streetnumber required<br>';
+        } else {
+            echo 'check<br>';
+        }
+    }
+}
+
+   function requireCity(){
+
     if(isset($_POST['city'])) {
         $city = trim($_POST['city']);
         if (empty($city)) {
-            echo 'city required';
+            echo 'city required<br>';
         } else {
-            echo 'check';
+            echo 'check<br>';
         }
     }
+   }
+
+   function requireZipCode(){
         if(isset($_POST['zipcode'])) {
             $zipcode = trim($_POST['zipcode']);
            if(is_numeric($zipcode)  ==true){
-               echo 'its a number!';
+               echo 'its a number!<br>';
            }else{
-               echo 'must be number';
+               echo 'must be number<br>';
            }
             if (empty($zipcode)) {
-                echo 'zipcode required';
+                echo 'zipcode required<br>';
             } else {
-                echo 'check';
+                echo 'check<br>';
             }
         }
-}
-var_dump(requireAdress());
+   }
+
+//var_dump(requireAdress());
 
 //we are going to use session variables so we need to enable sessions
 session_start();
