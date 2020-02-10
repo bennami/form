@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 
 //Get post
-if(isset($_POST['email'])){
+/*if(isset($_POST['email']) == true && empty($_POST['email']) == false){
 
 $email = $_POST['email'];
 
     function isEmailValid(string $email) {
-        $acceptables = array('.com','.org','.be', '.net', '.int', '.edu', '.gov', '.mil', '@');
+        $acceptables = array('.com','.org','.be', '.net', '.int', '.edu', '.gov', '.mil','au', '@');
 
         foreach ($acceptables as $acceptable) {
             if (strpos($email, $acceptable) !== false) {
@@ -20,8 +20,18 @@ $email = $_POST['email'];
         echo 'email not valid!<br />';
     }
     isEmailValid($email);
+}*/
+
+if(isset($_POST['email']) == true && empty($_POST['email']) == false) {
+    $email = $_POST['email'];
+if(filter_var($email, FILTER_VALIDATE_EMAIL) == true){
+    echo 'valid email!<br>';
+}else{
+    echo 'email not valid!<br />';
 }
 
+
+}
 //we are going to use session variables so we need to enable sessions
 session_start();
 
