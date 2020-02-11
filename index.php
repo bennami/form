@@ -6,7 +6,6 @@ declare(strict_types=1);
 session_start();
 
 if(isset($_POST)){
-
 //validate email, working, if u type .php it still gives u valid email.
 function validateEmail(){
     $alertStyle = array();
@@ -17,7 +16,7 @@ function validateEmail(){
             if (filter_var($email, FILTER_VALIDATE_EMAIL) == true) {
                 $style = 'alert-success';
                 $isValid = 'valid email!';
-                array_push($alertStyle, $style, $isValid);
+                array_push($alertStyle, $style, $isValid,$email);
                 $_SESSION['email']= $email;
             } else {
                 $style = 'alert-danger';
@@ -49,25 +48,16 @@ function requireStreet(){
         } else {
             $style = 'alert-success';
             $isValid = 'street valid!';
-            array_push($alertStyle, $style, $isValid);
+            array_push($alertStyle, $style, $isValid, $street);
             $_SESSION['street']= $street;
         }
     }return $alertStyle;
 }
+
 function requireStreetnumber(){
     $alertStyle= array();
     if (isset($_POST['streetnumber'])) {
         $streetnumber = trim($_POST['streetnumber']);
-        if (is_numeric($streetnumber) == true) {
-            $style = 'alert-success';
-            $isNumber = 'its a number!';
-            array_push($alertStyle, $style, $isNumber);
-        } else {
-            $style = 'alert-danger';
-            $isNumber = 'must be number';
-            array_push($alertStyle, $style, $isNumber);
-            $_POST['streetnumber']= '';
-        }
         if (empty($streetnumber)) {
             $style = 'alert-danger';
             $isValid = 'street number required';
@@ -77,11 +67,25 @@ function requireStreetnumber(){
             $isValid =  'check';
             array_push($alertStyle, $style, $isValid);
             $_SESSION['streetnumber']= $streetnumber;
+
+            if (is_numeric($streetnumber) == true) {
+                $style = 'alert-success';
+                $isNumber = 'its a number!';
+                array_push($alertStyle, $style, $isNumber, $streetnumber);
+            } else {
+                $style = 'alert-danger';
+                $isNumber = 'must be number';
+                array_push($alertStyle, $style, $isNumber);
+                $_POST['streetnumber']= '';
+
+            }
         }
+
+
     }return $alertStyle;
 }
 
-   function requireCity(){
+function requireCity(){
        $alertStyle= array();
     if(isset($_POST['city'])) {
         $city = trim($_POST['city']);
@@ -93,27 +97,18 @@ function requireStreetnumber(){
         } else {
             $style = 'alert-success';
             $isValid =  'check!';
-            array_push($alertStyle, $style, $isValid);
+            array_push($alertStyle, $style, $isValid, $city);
             $_SESSION['city']= $city;
         }
     }return $alertStyle;
    }
 
-   function requireZipCode(){
-       $alertStyle= array();
+
+function requireZipCode(){
+    $alertStyle= array();
         if(isset($_POST['zipcode'])) {
             $zipcode = trim($_POST['zipcode']);
-           if(is_numeric($zipcode)  ==true){
-               $style = 'alert-success';
-               $isNumber = 'its a number!';
-               array_push($alertStyle, $style, $isNumber);
-
-           }else{
-               $style = 'alert-danger';
-               $isNumber = 'must be number';
-               array_push($alertStyle, $style, $isNumber);
-               $_POST['zipcode'] = '';
-           }
+            $alertStyle = array();
             if (empty($zipcode)) {
                 $style = 'alert-danger';
                 $isValid =  'zip code required';
@@ -122,39 +117,56 @@ function requireStreetnumber(){
                 $style = 'alert-success';
                 $isValid =  'check!';
                 array_push($alertStyle, $style, $isValid);
-                $_SESSION['zipcode']= $zipcode;
+               // $_SESSION['zipcode']= $zipcode;
+
+                if(is_numeric($zipcode)  ==true){
+                    $style = 'alert-success';
+                    $isNumber = 'its a number!';
+                    array_push($alertStyle, $style, $isNumber,$zipcode);
+
+                }else{
+                    $_POST['zipcode'] = '';
+                    $style = 'alert-danger';
+                    $isNumber = 'must be number';
+                    array_push($alertStyle, $style, $isNumber);
+                }
             }
-        }return $alertStyle;
+        }
+        return $alertStyle;
    }
-
 }
-
+$zipcodeFunc = requireZipCode();
+$streetNumber = requireStreetnumber();
 //if form info is empty show alert that the form needs to  be  complete
 function formcomplete(){
     foreach ($_POST as $value) {
         $alertStyle = array();
 
+        //also check for an array inside the $_POST, if empty alert-dangere
         if ( is_array($value))
         {
             if (empty($value) == true) {
-                $alerClass = 'alert-danger';
+                $alertClass = 'alert-danger';
                 $alert = 'form  not complete, please  fill in all the required info';
-                array_push($alertStyle, $alerClass, $alert);
+                array_push($alertStyle, $alertClass, $alert);
 
             }
         }
+
+        //check if strings inside $_POST are empty,
         if (empty($value) == true) {
-            $alerClass = 'alert-danger';
+            $alertClass = 'alert-danger';
             $alert = 'form  not complete, please  fill in all the required info';
-            array_push($alertStyle, $alerClass, $alert);
+            array_push($alertStyle, $alertClass, $alert);
 
         } else {
-$alerClass='alert-success';
-$alert = "form sent!";
-           $alertStyle= array($alerClass, $alert) ;
+            //if not empty alert success
+            $alerClass='alert-success';
+            $alert = "form sent!";
+            $alertStyle= array($alerClass, $alert) ;
         }
-        $alertStyle= implode('<br>', $alertStyle);
-        return explode('<br>', $alertStyle);
+       //return array,  $alertStyle[0] = alert-danger/success and alertStyle[1] = text to be displayed. use  this in form-view.php
+        return $alertStyle;
     }
 }
 
@@ -226,5 +238,5 @@ $products = [
 
 
 $totalValue = 0;
-
+//header('refresh: 2');
 require 'form-view.php';

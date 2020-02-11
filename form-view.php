@@ -32,7 +32,7 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="email">E-mail:</label>
-                <input type="text" id="email" name="email" class="form-control"/>
+                <input type="text" id="email" name="email" class="form-control" value="<?php echo validateEmail()[2] ?>"/>
                 <div class ='alert <?php echo validateEmail()[0]; ?>'> <?php echo validateEmail()[1]; ?></div>
             </div>
             <div></div>
@@ -43,12 +43,12 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="street">Street:</label>
-                    <input type="text" name="street" id="street" class="form-control">
+                    <input type="text" name="street" id="street" class="form-control" value="<?php echo requireStreet()[2]; ?>">
                     <div class ='alert <?php echo requireStreet()[0]; ?>' > <?php echo requireStreet()[1]; ?></div>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="streetnumber">Street number:</label>
-                    <input type="text" id="streetnumber" name="streetnumber" class="form-control">
+                    <input type="text" id="streetnumber" name="streetnumber" class="form-control" value="<?php echo requireStreetnumber()[4]; ?>">
                     <div class ='alert <?php echo requireStreetnumber()[0]; ?>'> <?php echo requireStreetnumber()[1]; ?></div>
                     <div class ='alert <?php echo requireStreetnumber()[2]; ?>'> <?php echo requireStreetnumber()[3]; ?></div>
                 </div>
@@ -56,14 +56,14 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="city">City:</label>
-                    <input type="text" id="city" name="city" class="form-control">
+                    <input type="text" id="city" name="city" class="form-control" value="<?php echo requireCity()[2]; ?>">
                     <div class ='alert <?php echo requireCity()[0];?>'> <?php echo requireCity()[1]; ?></div>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="zipcode">Zipcode</label>
-                    <input type="text" id="zipcode" name="zipcode" class="form-control">
-                    <div class ='alert <?php echo requireZipCode()[0]; ?>'> <?php echo requireZipCode()[1];?></div>
-                    <div class ='alert <?php echo requireZipCode()[2]; ?>'> <?php echo requireZipCode()[3];?></div>
+                    <input type="text" id="zipcode" name="zipcode" class="form-control" value="<?php echo $zipcodeFunc[4]; ?>">
+                    <div class ='alert <?php echo $zipcodeFunc[0]; ?>'> <?php echo $zipcodeFunc[1];?></div>
+                    <div class ='alert <?php echo $zipcodeFunc[2]; ?>'> <?php echo $zipcodeFunc[3];?></div>
                 </div>
             </div>
         </fieldset>
