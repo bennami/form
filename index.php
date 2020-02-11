@@ -2,13 +2,14 @@
 //this line makes PHP behave in a more strict way
 declare(strict_types=1);
 
-
+//we are going to use session variables so we need to enable sessions
+session_start();
 
 if(isset($_POST)){
+
 //validate email, working, if u type .php it still gives u valid email.
 function validateEmail(){
     $alertStyle = array();
-
     //if string is not empty
     if (empty($_POST['email']) == false) {
         if (isset($_POST['email']) == true) {
@@ -17,11 +18,12 @@ function validateEmail(){
                 $style = 'alert-success';
                 $isValid = 'valid email!';
                 array_push($alertStyle, $style, $isValid);
-                $_COOKIE['email']= $email;
+                $_SESSION['email']= $email;
             } else {
                 $style = 'alert-danger';
                 $isValid = 'email not valid!';
                 array_push($alertStyle, $style, $isValid);
+                $_POST['email']='';
             }
             return $alertStyle;
         }
@@ -42,12 +44,13 @@ function requireStreet(){
             $style = 'alert-danger';
             $isValid = 'no valid street!';
             array_push($alertStyle, $style, $isValid);
+            $_POST['street']='';
 
         } else {
             $style = 'alert-success';
             $isValid = 'street valid!';
             array_push($alertStyle, $style, $isValid);
-            $_COOKIE['street']= $street;
+            $_SESSION['street']= $street;
         }
     }return $alertStyle;
 }
@@ -63,6 +66,7 @@ function requireStreetnumber(){
             $style = 'alert-danger';
             $isNumber = 'must be number';
             array_push($alertStyle, $style, $isNumber);
+            $_POST['streetnumber']= '';
         }
         if (empty($streetnumber)) {
             $style = 'alert-danger';
@@ -72,7 +76,7 @@ function requireStreetnumber(){
             $style = 'alert-success';
             $isValid =  'check';
             array_push($alertStyle, $style, $isValid);
-            $_COOKIE['streetnumber']= $streetnumber;
+            $_SESSION['streetnumber']= $streetnumber;
         }
     }return $alertStyle;
 }
@@ -85,11 +89,12 @@ function requireStreetnumber(){
             $style = 'alert-danger';
             $isValid = 'city required';
             array_push($alertStyle, $style, $isValid);
+            $_POST['city'] = '';
         } else {
             $style = 'alert-success';
             $isValid =  'check!';
             array_push($alertStyle, $style, $isValid);
-            $_COOKIE['city']= $city;
+            $_SESSION['city']= $city;
         }
     }return $alertStyle;
    }
@@ -102,10 +107,12 @@ function requireStreetnumber(){
                $style = 'alert-success';
                $isNumber = 'its a number!';
                array_push($alertStyle, $style, $isNumber);
+
            }else{
                $style = 'alert-danger';
                $isNumber = 'must be number';
                array_push($alertStyle, $style, $isNumber);
+               $_POST['zipcode'] = '';
            }
             if (empty($zipcode)) {
                 $style = 'alert-danger';
@@ -115,40 +122,47 @@ function requireStreetnumber(){
                 $style = 'alert-success';
                 $isValid =  'check!';
                 array_push($alertStyle, $style, $isValid);
-                $_COOKIE['zipcode']= $zipcode;
+                $_SESSION['zipcode']= $zipcode;
             }
         }return $alertStyle;
    }
 
 }
 
+//if form info is empty show alert that the form needs to  be  complete
 function formcomplete(){
-    $data = array();
+    foreach ($_POST as $value) {
+        $alertStyle = array();
 
-    for ($i=0; $i< count($_POST); $i++){
-        array_push($data, $_POST[$i]);
+        if ( is_array($value))
+        {
+            if (empty($value) == true) {
+                $alerClass = 'alert-danger';
+                $alert = 'form  not complete, please  fill in all the required info';
+                array_push($alertStyle, $alerClass, $alert);
+
+            }
         }
-    foreach($data as $data){
-        $alertStyle =array();
-        if(empty($data) == true){
+        if (empty($value) == true) {
             $alerClass = 'alert-danger';
             $alert = 'form  not complete, please  fill in all the required info';
-            array_push($alertStyle, $alerClass, $alert );
+            array_push($alertStyle, $alerClass, $alert);
 
-        }else{
-            $alerClass = 'alert-success';
-            $alert = 'form complete, your order has been sent!';
-            array_push($alertStyle, $alerClass, $alert );
-        }return $alertStyle;
-     }
-
+        } else {
+$alerClass='alert-success';
+$alert = "form sent!";
+           $alertStyle= array($alerClass, $alert) ;
+        }
+        $alertStyle= implode('<br>', $alertStyle);
+        return explode('<br>', $alertStyle);
     }
+}
+
 
 var_dump(formcomplete());
 
 
-//we are going to use session variables so we need to enable sessions
-session_start();
+
 
 function whatIsHappening() {
     echo '<h2>$_GET</h2>';

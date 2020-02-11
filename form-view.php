@@ -28,7 +28,7 @@
     </nav>
     </form>
     <form action="" method="post">
-        <p class="alert <?php echo formcomplete()[0]; ?>"> <?php echo formcomplete()[1]; ?> </p>
+        <p class="alert <?php echo  formcomplete()[0]; ?>"> <?php echo formcomplete()[1]; ?> </p>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="email">E-mail:</label>
