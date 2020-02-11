@@ -6,6 +6,8 @@ declare(strict_types=1);
 session_start();
 
 if(isset($_POST)){
+//for each input field there is a function, validate, empty string when data is not valid, keep correct data so user doesnt need to retype it and return values in  array to echo in HTML
+
 //validate email, working, if u type .php it still gives u valid email.
 function validateEmail(){
     $alertStyle = array();
@@ -80,8 +82,6 @@ function requireStreetnumber(){
 
             }
         }
-
-
     }return $alertStyle;
 }
 
@@ -135,9 +135,12 @@ function requireZipCode(){
         return $alertStyle;
    }
 }
+
+//put functions in var to echo the return properly
 $zipcodeFunc = requireZipCode();
 $streetNumber = requireStreetnumber();
-//if form info is empty show alert that the form needs to  be  complete
+
+//if some form info is empty show alert that the form needs to  be  complete
 function formcomplete(){
     foreach ($_POST as $value) {
         $alertStyle = array();
@@ -169,9 +172,7 @@ function formcomplete(){
         return $alertStyle;
     }
 }
-
-
-var_dump(formcomplete());
+//var_dump(formcomplete());
 
 
 
