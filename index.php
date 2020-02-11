@@ -225,7 +225,24 @@ if(!isset($_GET['food'])){
            $products =  $drinks;
         }
     }
+//get total price of order
 
+
+if (empty($_POST["products"] == false)) {
+    $order = $_POST["products"];
+}
+$total = 0;
+$orderList =array();
+for ($i = 0; $i < count($order); $i++) {
+
+    array_push($orderList, $products[$i]['name']);
+
+    if (isset($order[$i])) {
+        $total += $products[$i]["price"];
+    }
+}
+echo $total.'<br>';
+echo $orderSummary = implode('<br>', $orderList);
 //check for express delivery
 if(isset($_GET[ 'expressDelivery'])){
     $date= date('h:i:sa');
