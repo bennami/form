@@ -14,7 +14,7 @@ function validateEmail(){
     //if string is not empty
     if (empty($_POST['email']) == false) {
         if (isset($_POST['email']) == true) {
-            $email = $_POST['email'];
+            $email =trim($_POST['email']);
             if (filter_var($email, FILTER_VALIDATE_EMAIL) == true) {
                 $style = 'alert-success';
                 $isValid = 'valid email!';
@@ -33,9 +33,11 @@ function validateEmail(){
         $style = 'alert-danger';
         $isValid = 'email required!';
         array_push($alertStyle, $style, $isValid);
+        $_POST['email']='';
         return $alertStyle;
     }
 }
+
 
 function requireStreet(){
     $alertStyle= array();
@@ -55,6 +57,8 @@ function requireStreet(){
         }
     }return $alertStyle;
 }
+
+
 
 function requireStreetnumber(){
     $alertStyle= array();
@@ -85,6 +89,8 @@ function requireStreetnumber(){
     }return $alertStyle;
 }
 
+$streetnumber = requireStreetnumber();
+
 function requireCity(){
        $alertStyle= array();
     if(isset($_POST['city'])) {
@@ -108,7 +114,7 @@ function requireZipCode(){
     $alertStyle= array();
         if(isset($_POST['zipcode'])) {
             $zipcode = trim($_POST['zipcode']);
-            $alertStyle = array();
+            //$alertStyle = array();
             if (empty($zipcode)) {
                 $style = 'alert-danger';
                 $isValid =  'zip code required';
@@ -140,6 +146,7 @@ function requireZipCode(){
 //put functions in var to echo the return properly
 $zipcodeFunc = requireZipCode();
 $streetNumber = requireStreetnumber();
+$validEmail = validateEmail();
 
 //if some form info is empty show alert that the form needs to  be  complete
 function formcomplete(){
@@ -147,8 +154,7 @@ function formcomplete(){
         $alertStyle = array();
 
         //also check for an array inside the $_POST, if empty alert-dangere
-        if ( is_array($value))
-        {
+        if ( is_array($value)) {
             if (empty($value) == true) {
                 $alertClass = 'alert-danger';
                 $alert = 'form  not complete, please  fill in all the required info';
@@ -184,7 +190,7 @@ function whatIsHappening() {
     echo '<h2>$_SESSION</h2>';
     var_dump($_SESSION);
 }
-//var_dump(whatIsHappening());
+var_dump(whatIsHappening());
 
 $products = [
     ['name' => 'Club Ham', 'price' => 3.20],
@@ -200,8 +206,7 @@ $drinks = [
     ['name' => 'Ice-tea', 'price' => 3],
 ];
 
-
-
+//toggle between food and drinks
 if(!isset($_GET['food'])){
 
     $_GET['food']=1;
@@ -219,13 +224,21 @@ if(!isset($_GET['food'])){
         } else {
            $products =  $drinks;
         }
-
     }
-//var_dump(food());
-//your products with their price.
 
+//check for express delivery
+if(isset($_GET[ 'expressDelivery'])){
+    $date= date('h:i:sa');
+    $express = $date+= 45;
+    echo 'you chose express delivery, food will arrive at:'. $express;
 
+}else{
+    $date= date('h:i:sa');
+    $express = $date+= 45;
+    echo 'you chose express delivery, food will arrive at:'. $express;
+}
 
+var_dump($_GET[ 'expressDelivery']);
 
 $totalValue = 0;
 //header('refresh: 2');

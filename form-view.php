@@ -25,6 +25,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="?food=0" name="food">Order drinks</a>
             </li>
+
         </ul>
     </nav>
     </form>
@@ -33,8 +34,8 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="email">E-mail:</label>
-                <input type="text" id="email" name="email" class="form-control" value="<?php echo validateEmail()[2] ?>"/>
-                <div class ='alert <?php echo validateEmail()[0]; ?>'> <?php echo validateEmail()[1]; ?></div>
+                <input type="text" id="email" name="email" class="form-control" value="<?php if(isset($_SESSION['email'])){echo $_SESSION['email'];} ?>"/>
+                <div class ='alert <?php echo $validEmail[0]; ?>'> <?php echo $validEmail[1]; ?></div>
             </div>
             <div></div>
         </div>
@@ -44,25 +45,25 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="street">Street:</label>
-                    <input type="text" name="street" id="street" class="form-control" value="<?php echo requireStreet()[2]; ?>">
+                    <input type="text" name="street" id="street" class="form-control" value="<?php if(isset($_SESSION['street'])){echo $_SESSION['street'];} ?>">
                     <div class ='alert <?php echo requireStreet()[0]; ?>' > <?php echo requireStreet()[1]; ?></div>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="streetnumber">Street number:</label>
-                    <input type="text" id="streetnumber" name="streetnumber" class="form-control" value="<?php echo requireStreetnumber()[4]; ?>">
-                    <div class ='alert <?php echo requireStreetnumber()[0]; ?>'> <?php echo requireStreetnumber()[1]; ?></div>
-                    <div class ='alert <?php echo requireStreetnumber()[2]; ?>'> <?php echo requireStreetnumber()[3]; ?></div>
+                    <input type="text" id="streetnumber" name="streetnumber" class="form-control" value="<?php if(isset($_SESSION['streetnumber'])){echo $_SESSION['streetnumber'];} ?>">
+                    <div class ='alert <?php echo $streetnumber[0]; ?>'> <?php echo $streetnumber[1]; ?></div>
+                    <div class ='alert <?php echo $streetnumber[2]; ?>'> <?php echo $streetnumber[3]; ?></div>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="city">City:</label>
-                    <input type="text" id="city" name="city" class="form-control" value="<?php echo requireCity()[2]; ?>">
+                    <input type="text" id="city" name="city" class="form-control" value="<?php if(isset($_SESSION['city'])){echo $_SESSION['city'];} ?>">
                     <div class ='alert <?php echo requireCity()[0];?>'> <?php echo requireCity()[1]; ?></div>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="zipcode">Zipcode</label>
-                    <input type="text" id="zipcode" name="zipcode" class="form-control" value="<?php echo $zipcodeFunc[4]; ?>">
+                    <input type="text" id="zipcode" name="zipcode" class="form-control" value="<?php if(isset($_SESSION['zipcode'])){echo $_SESSION['zipcode'];} ?>">
                     <div class ='alert <?php echo $zipcodeFunc[0]; ?>'> <?php echo $zipcodeFunc[1];?></div>
                     <div class ='alert <?php echo $zipcodeFunc[2]; ?>'> <?php echo $zipcodeFunc[3];?></div>
                 </div>
@@ -76,6 +77,10 @@
                     <input type="checkbox" value="1" name="products[<?php echo $i ?>]"/> <?php echo $product['name'] ?> -
                     &euro; <?php echo number_format($product['price'], 2) ?></label><br />
             <?php endforeach; ?>
+            <label>
+            <input type="checkbox" value="1" name="expressDelivery"/>
+                express delivery?
+            </label>
         </fieldset>
 
         <button type="submit" class="btn btn-primary">Order!</button>
