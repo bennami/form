@@ -12,7 +12,7 @@
     <title>Order food & drinks</title>
 </head>
 <body>
-<form action="" method="post">
+<form action="" method='get'>
 <div class="container">
     <h1>Order food in restaurant "the Personal Ham Processors"</h1>
     <nav>
@@ -20,6 +20,7 @@
 
             <li class="nav-item">
                 <a class="nav-link active" href="?food=1" name="food">Order food</a>
+
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="?food=0" name="food">Order drinks</a>

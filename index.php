@@ -122,6 +122,7 @@ function requireZipCode(){
                 if(is_numeric($zipcode)  ==true){
                     $style = 'alert-success';
                     $isNumber = 'its a number!';
+                    $_SESSION['zipcode'] =$zipcode;
                     array_push($alertStyle, $style, $isNumber,$zipcode);
 
                 }else{
@@ -172,10 +173,6 @@ function formcomplete(){
         return $alertStyle;
     }
 }
-//var_dump(formcomplete());
-
-
-
 
 function whatIsHappening() {
     echo '<h2>$_GET</h2>';
@@ -187,7 +184,7 @@ function whatIsHappening() {
     echo '<h2>$_SESSION</h2>';
     var_dump($_SESSION);
 }
-var_dump(whatIsHappening());
+//var_dump(whatIsHappening());
 
 $products = [
     ['name' => 'Club Ham', 'price' => 3.20],
@@ -196,45 +193,37 @@ $products = [
     ['name' => 'Club Chicken', 'price' => 4],
     ['name' => 'Club Salmon', 'price' => 5]
 ];
-$products = [
+$drinks = [
     ['name' => 'Cola', 'price' => 2],
     ['name' => 'Fanta', 'price' => 2],
     ['name' => 'Sprite', 'price' => 2],
     ['name' => 'Ice-tea', 'price' => 3],
 ];
-function food(){
 
-    if(isset($_POST['food'])){
-        $menu = $_POST['food'];
 
-        if ($menu == 0){
-           echo $drinks = [
-                ['name' => 'Cola', 'price' => 2],
-                ['name' => 'Fanta', 'price' => 2],
-                ['name' => 'Sprite', 'price' => 2],
-                ['name' => 'Ice-tea', 'price' => 3],
-            ];
-        }else{
-            echo  $food = [
+
+if(!isset($_GET['food'])){
+
+    $_GET['food']=1;
+} else{
+
+        if ($_GET['food'] == 1) {
+            $products = [
                 ['name' => 'Club Ham', 'price' => 3.20],
                 ['name' => 'Club Cheese', 'price' => 3],
                 ['name' => 'Club Cheese & Ham', 'price' => 4],
                 ['name' => 'Club Chicken', 'price' => 4],
                 ['name' => 'Club Salmon', 'price' => 5]
             ];
+
+        } else {
+           $products =  $drinks;
         }
 
     }
-
-}
+//var_dump(food());
 //your products with their price.
-$products = [
-    ['name' => 'Club Ham', 'price' => 3.20],
-    ['name' => 'Club Cheese', 'price' => 3],
-    ['name' => 'Club Cheese & Ham', 'price' => 4],
-    ['name' => 'Club Chicken', 'price' => 4],
-    ['name' => 'Club Salmon', 'price' => 5]
-];
+
 
 
 
