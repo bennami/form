@@ -6,9 +6,10 @@ declare(strict_types=1);
 
 if(isset($_POST)){
 //validate email, working, if u type .php it still gives u valid email.
-function validateEmail()
-{
+function validateEmail(){
     $alertStyle = array();
+
+    //if string is not empty
     if (empty($_POST['email']) == false) {
         if (isset($_POST['email']) == true) {
             $email = $_POST['email'];
@@ -16,6 +17,7 @@ function validateEmail()
                 $style = 'alert-success';
                 $isValid = 'valid email!';
                 array_push($alertStyle, $style, $isValid);
+                $_COOKIE['email']= $email;
             } else {
                 $style = 'alert-danger';
                 $isValid = 'email not valid!';
@@ -24,15 +26,16 @@ function validateEmail()
             return $alertStyle;
         }
     } else {
+        //if string is empty
         $style = 'alert-danger';
         $isValid = 'email required!';
         array_push($alertStyle, $style, $isValid);
         return $alertStyle;
     }
 }
+
 function requireStreet(){
     $alertStyle= array();
-
     if (isset($_POST['street'])) {
         $street = trim($_POST['street']);
         if (empty($street)) {
@@ -44,7 +47,7 @@ function requireStreet(){
             $style = 'alert-success';
             $isValid = 'street valid!';
             array_push($alertStyle, $style, $isValid);
-
+            $_COOKIE['street']= $street;
         }
     }return $alertStyle;
 }
@@ -69,10 +72,11 @@ function requireStreetnumber(){
             $style = 'alert-success';
             $isValid =  'check';
             array_push($alertStyle, $style, $isValid);
+            $_COOKIE['streetnumber']= $streetnumber;
         }
     }return $alertStyle;
 }
-var_dump(whatIsHappening());
+
    function requireCity(){
        $alertStyle= array();
     if(isset($_POST['city'])) {
@@ -85,6 +89,7 @@ var_dump(whatIsHappening());
             $style = 'alert-success';
             $isValid =  'check!';
             array_push($alertStyle, $style, $isValid);
+            $_COOKIE['city']= $city;
         }
     }return $alertStyle;
    }
@@ -110,10 +115,38 @@ var_dump(whatIsHappening());
                 $style = 'alert-success';
                 $isValid =  'check!';
                 array_push($alertStyle, $style, $isValid);
+                $_COOKIE['zipcode']= $zipcode;
             }
         }return $alertStyle;
    }
+
 }
+
+function formcomplete(){
+    $data = array();
+
+    for ($i=0; $i< count($_POST); $i++){
+        array_push($data, $_POST[$i]);
+        }
+    foreach($data as $data){
+        $alertStyle =array();
+        if(empty($data) == true){
+            $alerClass = 'alert-danger';
+            $alert = 'form  not complete, please  fill in all the required info';
+            array_push($alertStyle, $alerClass, $alert );
+
+        }else{
+            $alerClass = 'alert-success';
+            $alert = 'form complete, your order has been sent!';
+            array_push($alertStyle, $alerClass, $alert );
+        }return $alertStyle;
+     }
+
+    }
+
+var_dump(formcomplete());
+
+
 //we are going to use session variables so we need to enable sessions
 session_start();
 
@@ -127,7 +160,46 @@ function whatIsHappening() {
     echo '<h2>$_SESSION</h2>';
     var_dump($_SESSION);
 }
-//whatIsHappening();
+var_dump(whatIsHappening());
+
+$products = [
+    ['name' => 'Club Ham', 'price' => 3.20],
+    ['name' => 'Club Cheese', 'price' => 3],
+    ['name' => 'Club Cheese & Ham', 'price' => 4],
+    ['name' => 'Club Chicken', 'price' => 4],
+    ['name' => 'Club Salmon', 'price' => 5]
+];
+$products = [
+    ['name' => 'Cola', 'price' => 2],
+    ['name' => 'Fanta', 'price' => 2],
+    ['name' => 'Sprite', 'price' => 2],
+    ['name' => 'Ice-tea', 'price' => 3],
+];
+function food(){
+
+    if(isset($_POST['food'])){
+        $menu = $_POST['food'];
+
+        if ($menu == 0){
+           echo $drinks = [
+                ['name' => 'Cola', 'price' => 2],
+                ['name' => 'Fanta', 'price' => 2],
+                ['name' => 'Sprite', 'price' => 2],
+                ['name' => 'Ice-tea', 'price' => 3],
+            ];
+        }else{
+            echo  $food = [
+                ['name' => 'Club Ham', 'price' => 3.20],
+                ['name' => 'Club Cheese', 'price' => 3],
+                ['name' => 'Club Cheese & Ham', 'price' => 4],
+                ['name' => 'Club Chicken', 'price' => 4],
+                ['name' => 'Club Salmon', 'price' => 5]
+            ];
+        }
+
+    }
+
+}
 //your products with their price.
 $products = [
     ['name' => 'Club Ham', 'price' => 3.20],
@@ -137,12 +209,7 @@ $products = [
     ['name' => 'Club Salmon', 'price' => 5]
 ];
 
-$products = [
-    ['name' => 'Cola', 'price' => 2],
-    ['name' => 'Fanta', 'price' => 2],
-    ['name' => 'Sprite', 'price' => 2],
-    ['name' => 'Ice-tea', 'price' => 3],
-];
+
 
 $totalValue = 0;
 

@@ -12,19 +12,23 @@
     <title>Order food & drinks</title>
 </head>
 <body>
+<form action="" method="post">
 <div class="container">
     <h1>Order food in restaurant "the Personal Ham Processors"</h1>
     <nav>
         <ul class="nav">
+
             <li class="nav-item">
-                <a class="nav-link active" href="?food=1">Order food</a>
+                <a class="nav-link active" href="?food=1" name="food">Order food</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="?food=0">Order drinks</a>
+                <a class="nav-link" href="?food=0" name="food">Order drinks</a>
             </li>
         </ul>
     </nav>
+    </form>
     <form action="" method="post">
+        <p class="alert <?php echo formcomplete()[0]; ?>"> <?php echo formcomplete()[1]; ?> </p>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="email">E-mail:</label>
