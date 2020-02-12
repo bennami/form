@@ -1,9 +1,12 @@
 <?php
 //this line makes PHP behave in a more strict way
 declare(strict_types=1);
-
+ini_set('display_errors', "1");
+ini_set('display_startup_errors', "1");
+error_reporting(E_ALL);
 //we are going to use session variables so we need to enable sessions
 session_start();
+
 
 if(isset($_POST)){
 //for each input field there is a function, validate, empty string when data is not valid, keep correct data so user doesnt need to retype it and return values in  array to echo in HTML
@@ -226,37 +229,57 @@ if(!isset($_GET['food'])){
         }
     }
 //get total price of order
-
-
-if (empty($_POST["products"] == false)) {
-    $order = $_POST["products"];
-}
-$total = 0;
+$total = array();
 $orderList =array();
-for ($i = 0; $i < count($order); $i++) {
+$totalSum = 0;
+$_SESSION['total']='0';
 
-    array_push($orderList, $products[$i]['name']);
+if (isset($_POST["products"])){
+    $order = $_POST["products"];
 
-    if (isset($order[$i])) {
-        $total += $products[$i]["price"];
+    for ($i = 0; $i < count($order); $i++) {
+    //get name of products you order
+        array_push($orderList, $products[$i]['name']);
+
+    //get total, i think there is an issue with float and integers
+
+        array_push($total,$products[$i]["price"]);
+         $totalSum = strval(array_sum($total));
+         setcookie('total', strval($totalSum ));
+         $_SESSION['total'] = $totalSum;
+
     }
 }
-echo $total.'<br>';
-echo $orderSummary = implode('<br>', $orderList);
+//save total spent in session
+//setcookie('total', strval($totalSum )); //86400 = 1day
+//$_COOKIE ['total'] = $totalSum;
+
+//get order summary to send in email
+$orderSummary = implode('<br>', $orderList);
+
+
 //check for express delivery
+function expressDelivery(){
 if(isset($_GET[ 'expressDelivery'])){
     $date= date('h:i:sa');
-    $express = $date+= 45;
-    echo 'you chose express delivery, food will arrive at:'. $express;
+    //$express = $date += 45;
+   return '<br>you chose express delivery, food will arrive in  45 min';
 
 }else{
     $date= date('h:i:sa');
-    $express = $date+= 45;
-    echo 'you chose express delivery, food will arrive at:'. $express;
+    //$express = $date+= 2;
+    return '<br>you chose normal delivery, food will arrive in 2hours';
+    }
 }
+$express = expressDelivery();
+echo $express;
+//var_dump($_GET[ 'expressDelivery']);
 
-var_dump($_GET[ 'expressDelivery']);
+//email  with summary order, data from session, total time to deliver, total price, extra cost for delivery and predefined email  of user
+$merge =array();
+$summary = implode((array)'<br>',array_push($merge,$orderSummary, strval($totalSum),'thank you for your order',$express ));
+mail($_SESSION['email'],'order receipt from restaurant X', $summary,['your order summary']);
 
-$totalValue = 0;
+
 //header('refresh: 2');
 require 'form-view.php';
