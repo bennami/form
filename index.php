@@ -1,9 +1,9 @@
 <?php
 //this line makes PHP behave in a more strict way
 declare(strict_types=1);
-ini_set('display_errors', "1");
+/*ini_set('display_errors', "1");
 ini_set('display_startup_errors', "1");
-error_reporting(E_ALL);
+error_reporting(E_ALL);*/
 //we are going to use session variables so we need to enable sessions
 session_start();
 
@@ -231,24 +231,27 @@ if(!isset($_GET['food'])){
 //get total price of order
 $total = array();
 $orderList =array();
-$totalSum = 0;
+
 $_SESSION['total']='0';
 
 if (isset($_POST["products"])){
     $order = $_POST["products"];
+    $totalSum=0;
+    for ($i = 0; $i < count($products); $i++) {
 
-    for ($i = 0; $i < count($order); $i++) {
-    //get name of products you order
-        array_push($orderList, $order[$i]['name']);
+        if(isset($order[$i])){
+        //get name of products you order
+        array_push($orderList, $products[$i]['name']);
+        //get total, i think there is an issue with float and integers
 
-    //get total, i think there is an issue with float and integers
-
-        array_push($total,$order[$i]["price"]);
-         $totalSum = strval(array_sum($total));
-         setcookie('total', strval($totalSum ));
-         $_SESSION['total'] = $totalSum;
-
+        array_push($total,$products[$i]["price"]);
+        $totalSum = strval(array_sum($total));
+        setcookie('total', strval($totalSum ));
+        //$_SESSION['total'] = $totalSum;
     }
+
+}
+
 //check for express delivery
     function expressDelivery(){
         if(isset($_POST[ 'expressDelivery'])){
