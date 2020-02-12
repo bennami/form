@@ -87,7 +87,7 @@
     </form>
 
     <footer>You already ordered <strong>&euro; <?php
-            echo $_SESSION['total']; ?></strong> in food and drinks.</footer>
+            echo $totalSum; ?></strong> in food and drinks.</footer>
 </div>
 
 <style>
